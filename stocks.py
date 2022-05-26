@@ -453,7 +453,7 @@ if st.button('Predict'):
     evaluate_forecasts(actual, forecasts, n_lag, n_seq)
 
 
-    import ta
+    from ta import add_all_ta_features
 
     # Get raw data again
     all_prediction_data = f_get_all_data([selected_ticker], "2019-01-01", today)
