@@ -32,7 +32,7 @@ so you don't have to!""")
 st.sidebar.write('User Input Features')
 start_time = st.sidebar.date_input('Start Date', dt(2020,1,1))
 end_time = st.sidebar.date_input('End Date', dt.now())
-Interval = st.sidebar.selectbox('Interval', ["5d", "1wk", "1mo", "3mo", "1y"])
+Interval = st.sidebar.selectbox('Interval', ["1d", "5d", "1wk", "1mo", "3mo", "1y"])
 
 
 # Web scrape S&P500 data and cache it for efficiency
@@ -454,7 +454,11 @@ if st.button('Predict'):
     evaluate_forecasts(actual, forecasts, n_lag, n_seq)
 
 
-
+    model = Prophet()
+    model.fit(df_train)
+    forecast = model.predict(series.index)
+    fig1 = model.plot(forecast, uncertainty=True)
+    st.pyplot(fig1)
 
 st.markdown("""* **Data source :** [Stock Market MBA](https://stockmarketmba.com/stocksinthesp500.php), [Polygon API](https://api.polygon.io/), [ETF Database](https://etfdb.com/compare/market-cap/)
 """)
