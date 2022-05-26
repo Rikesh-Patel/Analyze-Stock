@@ -453,8 +453,7 @@ if st.button('Predict'):
     evaluate_forecasts(actual, forecasts, n_lag, n_seq)
 
 
-
-    import ta
+    from ta import add_all_ta_features
 
     # Get raw data again
     all_prediction_data = f_get_all_data([selected_ticker], "2019-01-01", today)
@@ -462,7 +461,7 @@ if st.button('Predict'):
     
     # ## MACD (Moving Average Convergence Divergence)
     # MACD
-    all_prediction_data ['macd'], all_prediction_data['macdsignal'], all_prediction_data ['macdhist'] = ta.MACD(all_prediction_data ['Adj Close'], fastperiod=12, slowperiod=26, signalperiod=9)
+    all_prediction_data ['macd'], all_prediction_data['macdsignal'], all_prediction_data ['macdhist'] = ta.trend.MACD(all_prediction_data ['Adj Close'], window_slow: int = 26, window_fast: int = 12, window_sign: 9)
 
     # Plot MACD and MACD Signal
     st.subheader(f"Moving Average Convergence Divergence")
