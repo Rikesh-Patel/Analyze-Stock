@@ -430,7 +430,7 @@ except:
 if st.button('Predict'):
         
     # prepare data
-    prediction_data = f_get_data([selected_ticker], "2019-01-01", today, "5d")[selected_ticker]
+    prediction_data = f_get_data([selected_ticker], "2019-01-01", today, "1d")[selected_ticker]
     scaler, train, test = prepare_data(prediction_data, n_test, n_lag, n_seq)
     print(time.perf_counter())
     # fit model
