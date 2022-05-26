@@ -3,9 +3,7 @@ pandas == 1.4.2
 matplotlib == 3.5.1
 numpy == 1.22.3
 yfinance == 0.1.70
-datetime == 3.7
 requests == 2.27.1
-time == 3.7
 plotly == 5.8.0 
 sklearn == 0.0
 keras == 2.8.0
