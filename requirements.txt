@@ -12,5 +12,5 @@ protobuf == 3.19.3
 tensorflow == 2.8.0
 ta == 0.10.1
 pystan==2.19.1.1 
-cmdstanpy==0.9.5
-fbprophet==0.7.1
+cmdstanpy==0.4
+fbprophet==0.6
