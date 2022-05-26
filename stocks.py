@@ -419,10 +419,10 @@ api_url = f'https://api.polygon.io/v3/reference/tickers/{ticker}?date={today}&ap
 news_raw = requests.get(api_url).json()
 try:
     news = news_raw['results'].get('description') 
-    if news.isin('None'):
-        pass
-    else:       
-        st.markdown(news)
+   # if news.isin('None'):
+       # pass
+    #else:       
+    st.markdown(news)
 except:
     pass
 
@@ -453,13 +453,13 @@ if st.button('Predict'):
     evaluate_forecasts(actual, forecasts, n_lag, n_seq)
 
 
-    from ta import add_all_ta_features
+    import ta
 
     # Get raw data again
     all_prediction_data = f_get_all_data([selected_ticker], "2019-01-01", today)
 
     
-    # ## MACD (Moving Average Convergence Divergence)
+    ## MACD (Moving Average Convergence Divergence)
     # MACD
     all_prediction_data ['macd'] = ta.trend.MACD(all_prediction_data ['Adj Close'], window_slow = 26, window_fast = 12, window_sign = 9).macd()
     all_prediction_data['macdsignal'] = ta.trend.MACD(all_prediction_data ['Adj Close'], window_slow = 26, window_fast = 12, window_sign = 9).macd_signal()
