@@ -453,24 +453,6 @@ if st.button('Predict'):
     evaluate_forecasts(actual, forecasts, n_lag, n_seq)
 
 
-    import ta
-
-    # Get raw data again
-    all_prediction_data = f_get_all_data([selected_ticker], "2019-01-01", today)
-
-    
-    ## MACD (Moving Average Convergence Divergence)
-    # MACD
-    all_prediction_data ['macd'] = ta.trend.MACD(all_prediction_data ['Adj Close'], window_slow = 26, window_fast = 12, window_sign = 9).macd()
-    all_prediction_data['macdsignal'] = ta.trend.MACD(all_prediction_data ['Adj Close'], window_slow = 26, window_fast = 12, window_sign = 9).macd_signal()
-
-    # Plot MACD and MACD Signal
-    st.subheader(f"Moving Average Convergence Divergence")
-    fig2= go.Figure()
-    fig2.add_traces(go.Line(x=all_prediction_data.index ,y=all_prediction_data['macdsignal'], name='MA Signal'))
-    fig2.add_traces(go.Line(x=all_prediction_data.index ,y=all_prediction_data['macd'], name='MA'))
-    fig2.update_layout(hovermode="x unified")
-    st.plotly_chart(fig2)
 
 
 st.markdown("""* **Data source :** [Stock Market MBA](https://stockmarketmba.com/stocksinthesp500.php), [Polygon API](https://api.polygon.io/), [ETF Database](https://etfdb.com/compare/market-cap/)
