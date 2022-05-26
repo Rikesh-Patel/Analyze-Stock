@@ -1,5 +1,3 @@
-
-from unicodedata import numeric
 import matplotlib
 import streamlit as st
 import pandas as pd
@@ -74,8 +72,6 @@ df_selected = df_raw[df_raw['Symbol'].isin(selected)]
 
 
 
-import time
-import tk
 from plotly import graph_objs as go
 
 def f_plot_selected(df, symbols, start_index, end_index):
