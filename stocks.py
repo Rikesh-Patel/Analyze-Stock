@@ -367,6 +367,7 @@ def plot_forecasts(series, forecasts, n_test):
     
     # plot moving average line in orange
     ma100 = series.rolling(100).mean() 
+    st.dataframe(ma100, series.index)
     fig.add_trace(go.Line(x=series.index, y=ma100, name='MA100')) 
 
     # plot the forecasts in red
