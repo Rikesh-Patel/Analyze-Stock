@@ -454,7 +454,7 @@ if st.button('Predict'):
 
 
 
-    import talib as ta
+    import ta
 
     # Get raw data again
     all_prediction_data = f_get_all_data([selected_ticker], "2019-01-01", today)
