@@ -1,10 +1,8 @@
-import matplotlib
 import streamlit as st
 import pandas as pd
 import base64
 import matplotlib.pyplot as plt
 import matplotlib as mpl
-import seaborn
 import numpy as np
 import yfinance as yf
 from datetime import datetime as dt
@@ -72,6 +70,7 @@ df_selected = df_raw[df_raw['Symbol'].isin(selected)]
 
 
 
+import time
 from plotly import graph_objs as go
 
 def f_plot_selected(df, symbols, start_index, end_index):
@@ -112,15 +111,14 @@ def f_get_data(symbols, start_index, end_index, interval):
 def f_get_all_data(symbols, start_index, end_index):
     # Query stock data
     dates = pd.date_range(start_index, end_index)
-    df = pd.DataFrame(index=dates)
-
-    if not symbols:  # add SPY if empty as default
-        symbols.append('SPY')    
+    df = pd.DataFrame(index=dates) 
 
     connected = False
     while not connected:
         try:
             ticker_df = yf.download(symbols, start=start_index, end=end_index)
+            if not ticker_df:
+                ticker_df = yf.download('SPY', start=start_index, end=end_index)
             connected = True
         except Exception as e:
             print("Error: " + str(e))
@@ -206,7 +204,6 @@ from keras.models import Sequential
 from keras.layers import Dense
 from keras.layers import LSTM
 from math import sqrt
-from matplotlib import pyplot
 import plotly.express as px
 
 
@@ -216,7 +213,6 @@ import plotly.express as px
 
 
 ##Prediction
-
 
 # convert time series into supervised learning problem
 def series_to_supervised(data, n_in=1, n_out=1, dropnan=True):
@@ -234,16 +230,16 @@ def series_to_supervised(data, n_in=1, n_out=1, dropnan=True):
 			names += [('var%d(t)' % (j+1)) for j in range(n_vars)]
 		else:
 			names += [('var%d(t+%d)' % (j+1, i)) for j in range(n_vars)]
-	# put it all together
+	# combine
 	agg = concat(cols, axis=1)
 	agg.columns = names
-	# drop rows with NaN values
+	# drop NaN value rows
 	if dropnan:
 		agg.dropna(inplace=True)
 	return agg
  
  
-# transform series into train and test sets for supervised learning
+# Train and test sets for supervised learning
 def prepare_data(data, n_test, n_lag, n_seq):
 	# transform data to be stationary
 	diff_values = data.diff().values
@@ -258,13 +254,13 @@ def prepare_data(data, n_test, n_lag, n_seq):
 	train, test = supervised.values[:-n_test], supervised.values[-n_test:]
 	return scaler, train, test
  
-# fit an LSTM network to training data
+# fit LSTM neural network to training data
 def fit_lstm(train, n_lag, n_batch, nb_epoch, n_neurons):
 	# reshape training into [samples, timesteps, features]
 	X, y = train[:, 0:n_lag], train[:, n_lag:]
 	X = X.reshape(X.shape[0], 1, X.shape[1])
 	
-	# design network
+	# build LSTM network
 	model = Sequential()
 	model.add(LSTM(n_neurons, batch_input_shape=(n_batch, X.shape[1], X.shape[2]), stateful=True))
 	model.add(Dense(y.shape[1]))
@@ -276,7 +272,7 @@ def fit_lstm(train, n_lag, n_batch, nb_epoch, n_neurons):
 		model.reset_states()
 	return model
  
-# make one forecast with an LSTM,
+# make a forecast with network,
 def forecast_lstm(model, X, n_batch):
 	# reshape input pattern to [samples, timesteps, features]
 	X = X.reshape(1, 1, len(X))
@@ -332,16 +328,16 @@ def evaluate_forecasts(test, forecasts, n_lag, n_seq):
 		rmse = sqrt(mean_squared_error(actual, predicted))
 		st.write('t+%d RMSE: %f' % ((i+1), rmse))
  
-# plot the forecasts in the context of the original dataset
+# final plot
 def plot_forecasts(series, forecasts, n_test):
-	# plot the entire dataset in blue
-    
+	# plot the entire dataset
     fig = px.line(series, x=series.index, y=series).update_layout(
     xaxis_title="Time",
     yaxis_title="Price",
     yaxis_tickformat = '$.2f',
     xaxis={
         "range": [series.index.min(), series.index.max()],
+        # add range slider and buttons for zooming
         "rangeslider": {"visible": True},
         "rangeselector": dict(
             buttons= list([
@@ -369,11 +365,11 @@ def plot_forecasts(series, forecasts, n_test):
     hovermode="x unified")
     fig.update_traces(hovertemplate=selected_ticker+" : %{y}")
     
+    # plot moving average line in orange
     ma100 = series.rolling(100).mean() 
     fig.add_trace(go.Line(x=series.index, y=ma100, name='MA100')) 
-    #fig.update_traces(hovertemplate="%{y}")
+
     # plot the forecasts in red
-    
     for i in range(len(forecasts)):
             #pl= st.empty()
             off_s = len(series) - n_test + i - 1
@@ -395,7 +391,7 @@ def plot_forecasts(series, forecasts, n_test):
 
 
 
-# configuration
+# LSTM network configuration for model
 n_lag = 2
 n_seq = 3
 n_test = 50 #12
@@ -403,14 +399,17 @@ n_epochs = 1#10 #10
 n_batch = 1
 n_neurons = 1
 
+# Grab ticker from user
 ticker_input = st.text_input(label= 'Input a Stock Ticker', max_chars=10, value='SPY').rstrip(", ").upper().split(", ")[0]
+
+# Default ticker SPY
 if not ticker_input:
     selected_ticker = 'SPY'
 else:
     selected_ticker = ticker_input
 
 
-    
+# API call for stock description    
 api = 'Im0OD1nRQC58yzafY7pLwop5717DssjJ'
 today = str(dt.now())
 today = today[:today.find(" ")]
@@ -455,17 +454,17 @@ if st.button('Predict'):
 
 
 
-
-
-    all_prediction_data = f_get_all_data([selected_ticker], "2019-01-01", today)
-
     import talib as ta
 
+    # Get raw data again
+    all_prediction_data = f_get_all_data([selected_ticker], "2019-01-01", today)
+
+    
     # ## MACD (Moving Average Convergence Divergence)
     # MACD
     all_prediction_data ['macd'], all_prediction_data['macdsignal'], all_prediction_data ['macdhist'] = ta.MACD(all_prediction_data ['Adj Close'], fastperiod=12, slowperiod=26, signalperiod=9)
 
-    # Plot
+    # Plot MACD and MACD Signal
     st.subheader(f"Moving Average Convergence Divergence")
     fig2= go.Figure()
     fig2.add_traces(go.Line(x=all_prediction_data.index ,y=all_prediction_data['macdsignal'], name='MA Signal'))
