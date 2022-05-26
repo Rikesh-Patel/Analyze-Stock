@@ -461,7 +461,8 @@ if st.button('Predict'):
     
     # ## MACD (Moving Average Convergence Divergence)
     # MACD
-    all_prediction_data ['macd'], all_prediction_data['macdsignal'], all_prediction_data ['macdhist'] = ta.trend.MACD(all_prediction_data ['Adj Close'], window_slow: int = 26, window_fast: int = 12, window_sign: 9)
+    all_prediction_data ['macd'] = ta.trend.MACD(all_prediction_data ['Adj Close'], window_slow = 26, window_fast = 12, window_sign = 9).macd()
+    all_prediction_data['macdsignal'] = ta.trend.MACD(all_prediction_data ['Adj Close'], window_slow = 26, window_fast = 12, window_sign = 9).macd_signal()
 
     # Plot MACD and MACD Signal
     st.subheader(f"Moving Average Convergence Divergence")
