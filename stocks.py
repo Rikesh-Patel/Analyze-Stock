@@ -422,16 +422,13 @@ def news():
 	try:
 	    news = news_raw['results'].get('description') 
 	    if news == 'None':
-	        pass
+	        news=[]
 	    else:       
 	    	return news
 	except:
-	    pass
+	    news=[]
 	
-    if not news:
-	pass
-     else: 
-	st.markdown(news())
+st.markdown(news())
 
 if st.button('Predict'):
         
