@@ -367,7 +367,6 @@ def plot_forecasts(series, forecasts, n_test):
     
     # plot moving average line in orange
     ma100 = series.rolling(100).mean() 
-    st.dataframe(ma100)
     fig.add_trace(go.Line(x=series.index, y=ma100, name='MA100')) 
 
     # plot the forecasts in red
@@ -432,19 +431,14 @@ if st.button('Predict'):
     # prepare data
     prediction_data = f_get_data([selected_ticker], "2019-01-01", today, "1d")[selected_ticker]
     scaler, train, test = prepare_data(prediction_data, n_test, n_lag, n_seq)
-    print(time.perf_counter())
     # fit model
     model = fit_lstm(train, n_lag, n_batch, n_epochs, n_neurons)
-    print(time.perf_counter())
     # make forecasts
     forecasts = make_forecasts(model, n_batch, train, test, n_lag)
-    print(time.perf_counter())
     # inverse transform forecasts and test
     forecasts = inverse_transform(prediction_data, forecasts, scaler, n_test+2)
-    print(time.perf_counter())
     actual = [row[n_lag:] for row in test]
     actual = inverse_transform(prediction_data, actual, scaler, n_test+2)
-    print(time.perf_counter())
     # evaluate forecasts
 
     print(time.perf_counter())
@@ -453,7 +447,7 @@ if st.button('Predict'):
     plot_forecasts(prediction_data, forecasts, n_test+2)
     evaluate_forecasts(actual, forecasts, n_lag, n_seq)
 
-    st.write("""
+    st.markdown("""
 	     Author's Note: <br>
 	     The Long Short-Term Memory neural network has an ongoing list of  pros and cons. For instance, they can be fine
 	     tuned along parameters, but this process is time-intensive and hyper-focused. In terms of efficiency, we can conclude that the LSTM network's
