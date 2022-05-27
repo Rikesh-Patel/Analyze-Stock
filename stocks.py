@@ -421,15 +421,16 @@ def news():
 	news_raw = requests.get(api_url).json()
 	try:
 	    news = news_raw['results'].get('description') 
-	    if news.isin('None'):
+	    if news == 'None':
 	        pass
 	    else:       
 	    	return news
 	except:
 	    pass
 	
-
-st.markdown(news())
+if not news:
+else: 
+	st.markdown(news())
 
 if st.button('Predict'):
         
