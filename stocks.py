@@ -424,10 +424,10 @@ def news():
 	    if news.isin('None'):
 	        pass
 	    else:       
-	    	news=[]
+	    	return news
 	except:
 	    pass
-	return news
+	
 
 st.markdown(news())
 
