@@ -429,7 +429,8 @@ def news():
 	    pass
 	
     if not news:
-    else: 
+	pass
+     else: 
 	st.markdown(news())
 
 if st.button('Predict'):
