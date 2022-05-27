@@ -421,7 +421,7 @@ def news():
 	news_raw = requests.get(api_url).json()
 	try:
 	    news = news_raw['results'].get('description') 
-	    if news == 'None':
+	    if news.isin('None'):
 	        news=[]
 	    else:       
 	    	return news
