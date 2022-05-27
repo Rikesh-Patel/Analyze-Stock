@@ -424,11 +424,11 @@ def news():
 	    if news.isin('None'):
 	        news=[]
 	    else:       
-	    	return news
+	    	return news_raw
 	except:
 	    news=[]
 	
-st.markdown(news())
+st.markdown('News: ' & news())
 
 if st.button('Predict'):
         
