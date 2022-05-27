@@ -56,8 +56,8 @@ df, df_sp500, df_etf, df_raw = load_data()
 selected_stock= st.sidebar.multiselect('Select Stock(s)', df_sp500.unique(), None)
 selected_index = st.sidebar.multiselect('Select Indices', df_etf.unique(), None)
 try:
-    selected_unique = st.sidebar.text_input('Type Ticker Symbols (Ex: AAPL, MSFT, SPY)', max_chars=100).rstrip(", ").upper().split(",")
-    selected_unique = [s.rstrip(' ') for s in selected_unique]
+    selected_unique = st.sidebar.text_input('Type Ticker Symbols (Ex: AAPL, MSFT, SPY)', max_chars=100).strip(", ").upper().split(",")
+    selected_unique = [s.strip(' ') for s in selected_unique]
     selected = selected_stock + selected_index + selected_unique
 except:
     selected = selected_stock + selected_index
@@ -410,21 +410,26 @@ else:
 
 
 # API call for stock description    
-api = 'Im0OD1nRQC58yzafY7pLwop5717DssjJ'
-today = str(dt.now())
-today = today[:today.find(" ")]
-ticker = selected_ticker
+@st.cache
+def news():
+	api = 'Im0OD1nRQC58yzafY7pLwop5717DssjJ'
+	today = str(dt.now())
+	today = today[:today.find(" ")]
+	ticker = selected_ticker
 
-api_url = f'https://api.polygon.io/v3/reference/tickers/{ticker}?date={today}&apiKey={api}'
-news_raw = requests.get(api_url).json()
-try:
-    news = news_raw['results'].get('description') 
-   # if news.isin('None'):
-       # pass
-    #else:       
-    st.markdown(news)
-except:
-    pass
+	api_url = f'https://api.polygon.io/v3/reference/tickers/{ticker}?date={today}&apiKey={api}'
+	news_raw = requests.get(api_url).json()
+	try:
+	    news = news_raw['results'].get('description') 
+	    if news.isin('None'):
+	        pass
+	    else:       
+	    	news=[]
+	except:
+	    pass
+	return st.markdown(news)
+
+news()
 
 if st.button('Predict'):
         
