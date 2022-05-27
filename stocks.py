@@ -454,10 +454,11 @@ if st.button('Predict'):
     evaluate_forecasts(actual, forecasts, n_lag, n_seq)
 
     st.write("""
-	     To note: The Long Short-Term Memory neural network an ongoing list of both pros and cons. For instance, these neural networks can be fine
-	     tuned along parameters, but this is time-intensive and hyper-focused. In terms of efficiency, we can conclude that the LSTM network's
-	     performance fails to meet expectations when compared to other relevant models, like AR and ARIMA that are better fits for modeling stock price
-	     time series data. LSTM is inferior in terms of extrapolating ability and requiring large and consistent data.""")
+	     Author's Note: <br>
+	     The Long Short-Term Memory neural network has an ongoing list of  pros and cons. For instance, they can be fine
+	     tuned along parameters, but this process is time-intensive and hyper-focused. In terms of efficiency, we can conclude that the LSTM network's
+	     performance fails to meet expectations when compared to other relevant models, like AR and ARIMA that better fit modeling stock price
+	     time series data. Ergo, LSTM is inferior in terms of extrapolating ability and requiring large and consistent data.""")
 
 st.markdown("""* **Data source :** [Stock Market MBA](https://stockmarketmba.com/stocksinthesp500.php), [Polygon API](https://api.polygon.io/), [ETF Database](https://etfdb.com/compare/market-cap/)
 """)
