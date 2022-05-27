@@ -428,7 +428,7 @@ def news():
 	except:
 	    news=[]
 	
-st.markdown('News: ' & news())
+st.markdown('News: ' + news())
 
 if st.button('Predict'):
         
