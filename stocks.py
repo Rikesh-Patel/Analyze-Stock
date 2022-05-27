@@ -428,8 +428,8 @@ def news():
 	except:
 	    pass
 	
-if not news:
-else: 
+    if not news:
+    else: 
 	st.markdown(news())
 
 if st.button('Predict'):
