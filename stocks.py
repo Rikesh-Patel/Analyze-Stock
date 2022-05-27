@@ -427,9 +427,9 @@ def news():
 	    	news=[]
 	except:
 	    pass
-	return st.markdown(news)
+	return news
 
-news()
+st.markdown(news())
 
 if st.button('Predict'):
         
