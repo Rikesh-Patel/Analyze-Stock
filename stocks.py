@@ -418,9 +418,7 @@ def news():
 	api = 'Im0OD1nRQC58yzafY7pLwop5717DssjJ'
 	ticker = selected_ticker
 	api_url = f'https://api.polygon.io/v3/reference/tickers/{ticker}?date={today}&apiKey={api}'
-	today = str(dt.now())
-    today = today[:today.find(" ")]
-
+    
     news_raw = requests.get(api_url).json()['results']
 
     news = news_raw.get('description')
