@@ -409,24 +409,21 @@ else:
     selected_ticker = ticker_input
 
 
+today = str(dt.now())
+today = today[:today.find(" ")]
+
 # API call for stock description    
 @st.cache
 def news():
 	api = 'Im0OD1nRQC58yzafY7pLwop5717DssjJ'
-	today = str(dt.now())
-	today = today[:today.find(" ")]
 	ticker = selected_ticker
-
 	api_url = f'https://api.polygon.io/v3/reference/tickers/{ticker}?date={today}&apiKey={api}'
-	news_raw = requests.get(api_url).json()
-	try:
-	    news = news_raw['results'].get('description') 
-	    if news.isin('None'):
-	        news=[]
-	    else:       
-	    	return news_raw
-	except:
-	    news=[]
+	
+    news_raw = requests.get(api_url).json()
+    news = news_raw['results'].get('description')  
+    return news     
+
+
 	
 st.markdown('News: ') 
 st.markdown(news())
