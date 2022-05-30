@@ -425,7 +425,7 @@ def news():
 
 
 
-st.markdown('News: ') 
+st.markdown('Description: ') 
 st.markdown(news())
 
 if st.button('Predict'):
