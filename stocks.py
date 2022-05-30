@@ -419,9 +419,9 @@ def news():
 	ticker = selected_ticker
 	api_url = f'https://api.polygon.io/v3/reference/tickers/{ticker}?date={today}&apiKey={api}'
 	
-    	news_raw = requests.get(api_url).json()
-   	news = news_raw['results'].get('description')
-   	return news_raw
+	news_raw = requests.get(api_url).json()
+	news = news_raw['results'].get('description')
+	return news_raw
 
 
 
