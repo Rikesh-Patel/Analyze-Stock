@@ -421,7 +421,7 @@ def news():
 	
     news_raw = requests.get(api_url).json()
     news = news_raw['results'].get('description')  
-    return news     
+    return news_raw  
 
 
 	
