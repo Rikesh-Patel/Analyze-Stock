@@ -471,5 +471,5 @@ def filedownload(df):
 
 st.sidebar.markdown(filedownload(df_selected), unsafe_allow_html=True)
 st.sidebar.markdown(' ')
-st.sidebar.markdown("""* **Data source :** [Stock Market MBA](https://stockmarketmba.com/stocksinthesp500.php), [Polygon API](https://api.polygon.io/), [ETF Database](https://etfdb.com/compare/market-cap/)
+st.sidebar.markdown("""**Data source :** [Stock Market MBA](https://stockmarketmba.com/stocksinthesp500.php), [Polygon API](https://api.polygon.io/), [ETF Database](https://etfdb.com/compare/market-cap/)
 """)
