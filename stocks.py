@@ -190,6 +190,7 @@ def f_run():
 
 df = f_run()
 
+st.markdown("""---""")
 
 
 
@@ -368,6 +369,8 @@ def plot_forecasts(series, forecasts, n_test):
     # plot moving average line in orange
     ma100 = series.rolling(100).mean() 
     fig.add_trace(go.Line(x=series.index, y=ma100, name='MA100')) 
+    ma30 = series.rolling(30).mean() 
+    fig.add_trace(go.Line(x=series.index, y=ma30, name='MA30'))
 
     # plot the forecasts in red
     for i in range(len(forecasts)):
@@ -400,11 +403,11 @@ n_batch = 1
 n_neurons = 1
 
 # Grab ticker from user
-ticker_input = st.text_input(label= 'Input a Stock Ticker', max_chars=10, value='SPY').rstrip(", ").upper().split(", ")[0]
+ticker_input = st.text_input(label= 'Input a Stock Ticker', max_chars=10, value='AAPL').rstrip(", ").upper().split(", ")[0]
 
-# Default ticker SPY
+# Default ticker AAPL
 if not ticker_input:
-    selected_ticker = 'SPY'
+    selected_ticker = 'AAPL'
 else:
     selected_ticker = ticker_input
 
@@ -450,7 +453,7 @@ if st.button('Predict'):
     evaluate_forecasts(actual, forecasts, n_lag, n_seq)
 
     st.markdown("""
-	     Author's Note: <br>
+	     Author's Note:
 	     The Long Short-Term Memory neural network has an ongoing list of  pros and cons. For instance, they can be fine
 	     tuned along parameters, but this process is time-intensive and hyper-focused. In terms of efficiency, we can conclude that the LSTM network's
 	     performance fails to meet expectations when compared to other relevant models, like AR and ARIMA that better fit modeling stock price
