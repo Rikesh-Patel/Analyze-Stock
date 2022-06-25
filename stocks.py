@@ -459,8 +459,7 @@ if st.button('Predict'):
 	     performance fails to meet expectations when compared to other relevant models, like AR and ARIMA that better fit modeling stock price
 	     time series data. Ergo, LSTM is inferior in terms of extrapolating ability and requiring large and consistent data.""")
 
-st.markdown("""* **Data source :** [Stock Market MBA](https://stockmarketmba.com/stocksinthesp500.php), [Polygon API](https://api.polygon.io/), [ETF Database](https://etfdb.com/compare/market-cap/)
-""")
+
 
 
 # Downloadable CSV data
@@ -471,3 +470,6 @@ def filedownload(df):
     return href
 
 st.sidebar.markdown(filedownload(df_selected), unsafe_allow_html=True)
+st.sidebar.markdown(' ')
+st.sidebar.markdown("""* **Data source :** [Stock Market MBA](https://stockmarketmba.com/stocksinthesp500.php), [Polygon API](https://api.polygon.io/), [ETF Database](https://etfdb.com/compare/market-cap/)
+""")
